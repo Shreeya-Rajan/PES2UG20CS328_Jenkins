@@ -3,24 +3,19 @@ pipeline{
   stages{
     stage('Build'){
       steps{
-        sh 'g++ main/srn.cpp -o output'
-        build 'PES2UG20CS328-1'
+        sh 'mvn clean install'
         echo 'Successfully Built'
       }
     }
     stage('Test'){
       steps{
-        sh './output'
+        sh 'mvn test'
         echo 'Successfully Tested'
       }
     }
     stage('Deploy'){
-      when{
-        expression{
-          currentBuild.result == null || currentBuild.result == 'SUCCESS'
-        }
-      }
       steps{
+        sh 'mvn deploy'
         echo 'Deployment Successful'
       }
     }
